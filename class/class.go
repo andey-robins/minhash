@@ -3,13 +3,14 @@ package class
 import (
 	"fmt"
 
-	"github.com/andey-robins/minhash/helpers"
 	"github.com/andey-robins/minhash/matrix"
+	"github.com/andey-robins/minhash/minhash"
 )
 
 // ClassDriver will execute everything using the values provided
 // in the class example. Useful for verifying all of the systems come
-// together correctly
+// together correctly. Also included in `go test ./...` so if the tests
+// pass, then the minhash algorithm components are working
 func ClassDriver() {
 	s1 := []int{1, 0, 1, 0, 1}
 	s2 := []int{0, 0, 1, 1, 0}
@@ -36,15 +37,7 @@ func ClassDriver() {
 	m.AddCol(h1Row)
 	m.AddCol(h2Row)
 
-	for row := 0; row < len(m.Cols[0]); row++ {
-		for col := 0; col < len(sig.Cols); col++ {
-			if m.Get(row, col) == 1 {
-				for hash := 0; hash < 2; hash++ {
-					sig.Set(hash, col, helpers.IntMin(sig.Get(hash, col), m.Get(row, 3+hash)))
-				}
-			}
-		}
-	}
+	minhash.ApproximateSigMatrix(m, sig)
 
 	fmt.Println("\nExpected Matrix:")
 	fmt.Println("0 3 1")
