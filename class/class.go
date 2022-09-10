@@ -1,6 +1,8 @@
 package class
 
 import (
+	"fmt"
+
 	"github.com/andey-robins/minhash/matrix"
 )
 
@@ -12,17 +14,26 @@ func ClassDriver() {
 	s2 := []int{0, 0, 1, 1, 0}
 	s3 := []int{1, 1, 0, 1, 0}
 
-	// h1 := func(x int) int { return (x + 1) % 5 }
-	// h2 := func(x int) int { return (3*x + 1) % 5 }
+	h1 := func(x int) int { return (x + 1) % 5 }
+	h2 := func(x int) int { return (3*x + 1) % 5 }
 
 	m := matrix.NewMatrix()
-	m.AddRow(s1)
-	m.AddRow(s2)
-	m.AddRow(s3)
+	m.AddCol(s1)
+	m.AddCol(s2)
+	m.AddCol(s3)
 
-	approximateSig(5, 3)
-}
+	// sig := matrix.NewSigMatrix(2, 3)
 
-func approximateSig(rows, cols int) {
-	// sig := matrix.NewSigMatrix(rows, cols)
+	h1Row := []int{}
+	h2Row := []int{}
+
+	for i := 0; i < len(m.Cols[0]); i++ {
+		h1Row = append(h1Row, h1(i))
+		h2Row = append(h2Row, h2(i))
+	}
+
+	m.AddCol(h1Row)
+	m.AddCol(h2Row)
+
+	fmt.Println(m)
 }

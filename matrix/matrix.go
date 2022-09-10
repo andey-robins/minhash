@@ -4,7 +4,7 @@ import "math"
 
 // Matrix is a 2 dimensional data structure
 type Matrix struct {
-	Rows [][]int
+	Cols [][]int
 }
 
 // NewMatrix returns a pointer to a Matrix object
@@ -12,11 +12,17 @@ func NewMatrix() *Matrix {
 	return &Matrix{}
 }
 
-// AddRow appends the argument row to the matrix
+// AddCol appends the argument col to the matrix
 // it doesn't perform any length checking, allowing for variable
 // width matrix rows
-func (m *Matrix) AddRow(row []int) {
-	m.Rows = append(m.Rows, row)
+func (m *Matrix) AddCol(col []int) {
+	m.Cols = append(m.Cols, col)
+}
+
+// Get will allow for (i,j) based indexing of the matrix
+// returning the value at M_ij
+func (m *Matrix) Get(i, j int) int {
+	return m.Cols[j][i]
 }
 
 // NewSigMatrix returns a SIG matrix for use in the minhash algorithm
@@ -30,7 +36,7 @@ func NewSigMatrix(rows, cols int) *Matrix {
 		for j := 0; j < cols; j++ {
 			row = append(row, math.MaxInt64)
 		}
-		sig.AddRow(row)
+		sig.AddCol(row)
 	}
 
 	return sig
