@@ -3,6 +3,7 @@ package class
 import (
 	"fmt"
 
+	"github.com/andey-robins/minhash/helpers"
 	"github.com/andey-robins/minhash/matrix"
 )
 
@@ -22,7 +23,7 @@ func ClassDriver() {
 	m.AddCol(s2)
 	m.AddCol(s3)
 
-	// sig := matrix.NewSigMatrix(2, 3)
+	sig := matrix.NewSigMatrix(2, 3)
 
 	h1Row := []int{}
 	h2Row := []int{}
@@ -35,5 +36,32 @@ func ClassDriver() {
 	m.AddCol(h1Row)
 	m.AddCol(h2Row)
 
-	fmt.Println(m)
+	for row := 0; row < len(m.Cols[0]); row++ {
+		for col := 0; col < len(sig.Cols); col++ {
+			if m.Get(row, col) == 1 {
+				for hash := 0; hash < 2; hash++ {
+					sig.Set(hash, col, helpers.IntMin(sig.Get(hash, col), m.Get(row, 3+hash)))
+				}
+			}
+		}
+	}
+
+	fmt.Println("\nExpected Matrix:")
+	fmt.Println("0 3 1")
+	fmt.Println("1 0 0")
+	fmt.Println("\nCalculated Matrix:")
+	sig.Print()
+	fmt.Println()
+
+	expectedSig := matrix.NewMatrix()
+	expectedSig.AddCol([]int{0, 1})
+	expectedSig.AddCol([]int{3, 0})
+	expectedSig.AddCol([]int{1, 0})
+
+	if matrix.MatrixEqual(*sig, *expectedSig) {
+		fmt.Println("Matrices were equal. Everything worked!")
+	} else {
+		fmt.Println("Matrices were not equal. Something went wrong.")
+	}
+	fmt.Println()
 }

@@ -15,3 +15,11 @@ func ListEqual[T comparable](l1, l2 []T) bool {
 	}
 	return true
 }
+
+func IntMin(a, b int) int {
+	if a < b {
+		return a
+	} else {
+		return b
+	}
+}

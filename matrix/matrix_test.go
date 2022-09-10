@@ -67,3 +67,20 @@ func TestGet(t *testing.T) {
 		}
 	}
 }
+
+func TestMatrixEqual(t *testing.T) {
+	tests := []struct {
+		m1  Matrix
+		m2  Matrix
+		exp bool
+	}{
+		{m1: *NewSigMatrix(2, 2), m2: *NewSigMatrix(2, 2), exp: true},
+		{m1: *NewSigMatrix(2, 2), m2: *NewSigMatrix(2, 3), exp: false},
+	}
+
+	for i, test := range tests {
+		if MatrixEqual(test.m1, test.m2) != test.exp {
+			t.Errorf("[Test %v] - Matrices' equality was %v instead of %v", i, test.exp, !test.exp)
+		}
+	}
+}

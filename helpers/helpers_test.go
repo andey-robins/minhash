@@ -1,6 +1,8 @@
 package helpers
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestListEqual(t *testing.T) {
 	tests := []struct {
@@ -25,6 +27,28 @@ func TestListEqual(t *testing.T) {
 	for i, test := range tests {
 		if ListEqual(test.l1, test.l2) != test.exp {
 			t.Errorf("[Test %v] - Lists l1=%v and l2=%v equality should be %v but isn't", i, test.l1, test.l2, test.exp)
+		}
+	}
+}
+
+func TestIntMin(t *testing.T) {
+	tests := []struct {
+		i1  int
+		i2  int
+		min int
+	}{
+		{i1: 0, i2: 1, min: 0},
+		{i1: 2, i2: 1, min: 1},
+		{i1: 0, i2: 3, min: 0},
+		{i1: 6, i2: 1, min: 1},
+		{i1: 10, i2: 11, min: 10},
+		{i1: 5, i2: 1, min: 1},
+		{i1: 0, i2: -1, min: -1},
+	}
+
+	for i, test := range tests {
+		if IntMin(test.i1, test.i2) != test.min {
+			t.Errorf("[Test %v] - Wrong min returned. got=%v, exp=%v", i, IntMin(test.i1, test.i2), test.min)
 		}
 	}
 }
