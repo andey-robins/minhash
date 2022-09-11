@@ -36,6 +36,19 @@ func (m *Matrix) Set(i, j, x int) {
 	m.Cols[j][i] = x
 }
 
+// MatrixTrim will remove trailing cols from the matrix to
+// ensure the matrix only has width len
+func (m *Matrix) MatrixTrim(len int) *Matrix {
+	trimmedMatrix := NewMatrix()
+
+	for i := 0; i < len; i++ {
+		trimmedMatrix.AddCol(m.Cols[i])
+	}
+
+	return trimmedMatrix
+}
+
+// Print will nicely display a matrix in the standard output
 func (m *Matrix) Print() {
 	rows := make([][]int, len(m.Cols[0]))
 	for i := range rows {
@@ -73,6 +86,8 @@ func NewSigMatrix(rows, cols int) *Matrix {
 	return sig
 }
 
+// MatrixEqual will determine if two matrices are equal
+// elementwise
 func MatrixEqual(m1, m2 Matrix) bool {
 	if len(m1.Cols) != len(m2.Cols) || len(m1.Cols[0]) != len(m2.Cols[0]) {
 		return false
