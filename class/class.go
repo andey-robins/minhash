@@ -3,6 +3,7 @@ package class
 import (
 	"fmt"
 
+	"github.com/andey-robins/minhash/jaccard"
 	"github.com/andey-robins/minhash/matrix"
 	"github.com/andey-robins/minhash/minhash"
 )
@@ -57,4 +58,10 @@ func ClassDriver() {
 		fmt.Println("Matrices were not equal. Something went wrong.")
 	}
 	fmt.Println()
+
+	trueSimilarity := jaccard.JaccardSimilarity(m.Cols[0], m.Cols[2])
+	estimatedSimilarity := jaccard.JaccardSimilarity(sig.Cols[0], sig.Cols[2])
+
+	fmt.Printf("The true Jaccard similarity is %v while the estimated similarity is %v\n\n", trueSimilarity, estimatedSimilarity)
+
 }
