@@ -1,6 +1,15 @@
 # Minhash
 A version of the minhash algorithm for the Dynamic Big Data Course at Uwyo
 
+## Quick Reference
+
+Easiest way to install go: `brew install go`
+
+Run the example from class: `go run main.go -class`
+
+Run a big example: `go run main.go -L 10007 -Q 1000 -seed 11`
+    - Ommit the `-seed 11` for random results
+
 ## Dependencies
 
 `go version go1.19 darwin/arm64`
