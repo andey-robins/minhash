@@ -12,7 +12,7 @@ Run a big example: `go run main.go -L 10007 -Q 1000 -seed 11`
 
 ## Dependencies
 
-`go version go1.19 darwin/arm64`
+`go version go1.19.1 darwin/arm64`
 
 ## Running
 
