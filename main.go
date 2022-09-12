@@ -109,6 +109,9 @@ func driver(l, q int) {
 	sig := matrix.NewSigMatrix(n, q)
 	minhash.ApproximateSigMatrix(sparseMatrix, sig)
 
-	fmt.Printf("Approximated Jaccard = %v\n", jaccard.JaccardSimilarity(sig.Cols[0], sig.Cols[1]))
-	fmt.Printf("True Jaccard         = %v\n", jaccard.JaccardSimilarity(sparseMatrix.Cols[0], sparseMatrix.Cols[1]))
+	left := rand.Intn(len(sig.Cols))
+	right := rand.Intn(len(sig.Cols))
+
+	fmt.Printf("Approximated Jaccard = %v\n", jaccard.JaccardSimilarity(sig.Cols[left], sig.Cols[right]))
+	fmt.Printf("True Jaccard         = %v\n", jaccard.JaccardSimilarity(sparseMatrix.Cols[left], sparseMatrix.Cols[right]))
 }
