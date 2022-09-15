@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/andey-robins/minhash/class"
+	"github.com/andey-robins/minhash/helpers"
 	"github.com/andey-robins/minhash/jaccard"
 	"github.com/andey-robins/minhash/language"
 	"github.com/andey-robins/minhash/matrix"
@@ -72,7 +73,11 @@ func driver(l, q int) {
 	sparseMatrix := matrix.NewMatrix()
 
 	for i := 0; i < q; i++ {
-		sparseMatrix.AddCol(lang.SparseList())
+		list := lang.SparseList()
+		for helpers.ListEqual(list, make([]int, l)) {
+			list = lang.SparseList()
+		}
+		sparseMatrix.AddCol(list)
 	}
 
 	fmt.Println("Constructed sparse matrix")
@@ -109,9 +114,19 @@ func driver(l, q int) {
 	sig := matrix.NewSigMatrix(n, q)
 	minhash.ApproximateSigMatrix(sparseMatrix, sig)
 
-	left := rand.Intn(len(sig.Cols))
-	right := rand.Intn(len(sig.Cols))
-
-	fmt.Printf("Approximated Jaccard = %v\n", jaccard.JaccardSimilarity(sig.Cols[left], sig.Cols[right]))
-	fmt.Printf("True Jaccard         = %v\n", jaccard.JaccardSimilarity(sparseMatrix.Cols[left], sparseMatrix.Cols[right]))
+	average_approx_similarity := 0.0
+	average_true_similarity := 0.0
+	count := 0
+	// Compute jaccard for *all* column pairs
+	for i := 0; i < len(sig.Cols); i++ {
+		for j := 1; j < len(sig.Cols); j++ {
+			if i != j {
+				average_approx_similarity += jaccard.JaccardSimilarity(sig.Cols[i], sig.Cols[j])
+				average_true_similarity += jaccard.JaccardSimilarity(sparseMatrix.Cols[i], sparseMatrix.Cols[j])
+				count++
+			}
+		}
+	}
+	fmt.Printf("Approximated Jaccard = %v\n", average_approx_similarity/float64(count))
+	fmt.Printf("True Jaccard         = %v\n", average_true_similarity/float64(count))
 }

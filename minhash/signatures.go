@@ -18,7 +18,9 @@ func ApproximateSigMatrix(m, sig *matrix.Matrix) {
 		for col := 0; col < len(sig.Cols); col++ {
 			if m.Get(row, col) == 1 {
 				for hash := 0; hash < len(m.Cols)-len(sig.Cols); hash++ {
-					sig.Set(hash, col, helpers.IntMin(sig.Get(hash, col), m.Get(row, len(sig.Cols)+hash)))
+					h_ki := m.Get(row, len(sig.Cols)+hash)
+					sig_kj := sig.Get(hash, col)
+					sig.Set(hash, col, helpers.IntMin(sig_kj, h_ki))
 				}
 			}
 		}
