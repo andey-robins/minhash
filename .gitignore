@@ -18,3 +18,7 @@
 problem/
 
 res.txt
+res.txt.bak
+main
+
+.DS_STORE
